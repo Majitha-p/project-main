@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: gray;
+            margin: 0;
+            padding: 0;
+            background-image: url(r'C:\Users\hp\OneDrive\Desktop\car-p\Django-car-price-predictore\download.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: silver;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: green;
+            text-align: center;
+        }
+
+        .not-found {
+            font-size: 18px;
+            color: red;
+            text-align: center;
+        }
+
+        .details {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    {% comment %} <form method="post" action="/your-form-action/">
+        {% csrf_token %} {% endcomment %}
+    <div class="container">
+        <h1>Result</h1>
+        <div class="details">
+            <h2>Primary Car Details:</h2>
+            <p><strong>Brand:</strong> {{ make }}</p>
+            <p><strong>Model:</strong> {{ model }}</p>
+            <p><strong>Year:</strong> {{ year }}</p>
+        </div>
+        
+        <div class="price">
+            <h2>Avarage Price:</h2>
+            <p>${{ price }}</p>
+        </div>
+    {% comment %} </form> {% endcomment %}
+    </div>
+</body>
+</html>

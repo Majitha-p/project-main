@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Car Price Predictor</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                background: linear-gradient(to bottom, silver 50%, gray 50%);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+    
+            .container {
+                max-width: 600px;
+                background-color: gray;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            h1 {
+                text-align: center;
+                position: absolute;
+                top: 0; /* Position at the top */
+                left: 50%;
+                transform: translateX(-50%);
+                margin-top: 20px; /* Added margin for spacing */
+            }
+    
+            .field {
+                position: relative;
+            }
+    
+            .field label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+    
+            .field input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+    
+            .button {
+                display: block;
+                width: 100%;
+                padding: 15px;
+                background-color: black;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+                text-align: center;
+                transition: background-color 0.3s ease;
+                border-radius: 25px;
+            }
+    
+            .next-field,
+            .back-field {
+                padding: 10px 20px; /* Adjust padding as needed */
+                background-color: black /* Button background color */
+                color: black; /* Text color */
+                border: none;
+                border-radius: 25px; /* Rounded shape */
+                cursor: pointer;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
+            }
+            
+            .next-field:hover,
+            .back-field:hover {
+                background-color: silver; /* Darker background color on hover */
+            }
+                                
+    
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+<body>
+    <h1>Car Price Predictor</h1>
+
+    <div id="start-container">
+        <button id="start-button" class="button">Start here</button>
+    </div>
+    
+    <form id="car-form" method="post" action="/">
+    {% csrf_token %}
+    <div id="form-container" class="container hidden">
+        
+            <!-- Initial message -->
+            
+
+            <!-- Make field -->
+            <div id="make-field" class="field">
+                <div class="message">Which car do you want?</div>
+                <label for="make">Enter the car brand:</label>
+                <input type="text" name="make" placeholder="make of a car (BMW, Toyota, and so on)" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+                <button type="button" class="next-field">Next</button>
+            </div>
+            
+            <!-- Model field -->
+            <div id="model-field" class="field hidden">
+                <label for="model">Enter the model:</label>
+                <input type="text" name="model" placeholder="model of a car" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+                <button type="button" class="back-field">Back</button>
+                <button type="button" class="next-field">Next</button>
+                
+            </div>
+
+            <!-- Year field -->
+            <div id="year-field" class="field hidden">
+                <label for="year">Enter the year:</label>
+                <input type="number" name="year" placeholder="year when the car was manufactured" required>
+                
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Engine Fuel Type field -->
+            <div id="engine-fuel-type-field" class="field hidden">
+                <label for="engine_fuel_type">Enter the engine fuel type:</label>
+                <input type="text" name="engine_fuel_type" placeholder="diesel, electric, and so on" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Engine Horse Power field -->
+            <div id="engine-hp-field" class="field hidden">
+                <label for="engine_hp">Enter the engine horse power:</label>
+                <input type="number" name="engine_hp" placeholder="horsepower of the engine" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Engine Cylinders field -->
+            <div id="engine-cylinders-field" class="field hidden">
+                <label for="engine_cylinders">Enter the engine cylinders:</label>
+                <input type="number" name="engine_cylinders" placeholder="number of cylinders in the engine" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Transmission Type field -->
+            <div id="transmission-type-field" class="field hidden">
+                <label for="transmission_type">Enter the transmission type:</label>
+                <input type="text" name="transmission_type" placeholder="Manual or Automatic" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Driven Wheels field -->
+            <div id="driven-wheels-field" class="field hidden">
+                <label for="driven_wheels">Enter the driven wheels:</label>
+                <input type="text" name="driven_wheels" placeholder="front, rear, all" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Number of Doors field -->
+            <div id="number-of-doors-field" class="field hidden">
+                <label for="number_of_doors">Enter the number of doors:</label>
+                <input type="number" name="number_of_doors" placeholder="number of doors a car has" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Market Category field -->
+            <div id="market-category-field" class="field hidden">
+                <label for="market_category">Enter the market category:</label>
+                <input type="text" name="market_category" placeholder="luxury, crossover, and so on" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Vehicle Size field -->
+            <div id="vehicle-size-field" class="field hidden">
+                <label for="vehicle_size">Enter the vehicle size:</label>
+                <input type="text" name="vehicle_size" placeholder="compact, midsize, or large" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Vehicle Style field -->
+            <div id="vehicle-style-field" class="field hidden">
+                <label for="vehicle_style">Enter the vehicle style:</label>
+                <input type="text" name="vehicle_style" placeholder="sedan or convertible" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Highway MPG field -->
+            <div id="highway-mpg-field" class="field hidden">
+                <label for="highway_mpg">Enter the highway mpg:</label>
+                <input type="number" name="highway_mpg" placeholder="miles per gallon (mpg) on the highway" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- City MPG field -->
+            <div id="city-mpg-field" class="field hidden">
+                <label for="city_mpg">Enter the city mpg:</label>
+                <input type="number" name="city_mpg" placeholder="miles per gallon in the city" required>
+                <span class="error-message" style="display: none; color: red;">Please fill this field</span>
+
+                <button type="button" class="back-field">Back</button>
+            
+                <button type="button" class="next-field">Next</button>
+            </div>
+
+            <!-- Popularity field -->
+            <div id="popularity-field" class="field hidden">
+                <label for="popularity">Enter the popularity:</label>
+                <input type="number" name="popularity" placeholder="number of times the car was mentioned in a Twitter stream" required>
+                <button type="button" class="back-field">Back</button>
+            
+                {% comment %} <button type="button" class="next-field">Next</button> {% endcomment %}
+            </div>
+
+            <!-- Submit button -->
+            <button id="submit-button" type="submit" >Submit</button>
+        </form>
+    </div>
+    <script>
+        const startButton = document.getElementById('start-button');
+        const formContainer = document.getElementById('form-container');
+        const backButtons = document.querySelectorAll('.back-field');
+        const fields = document.querySelectorAll('.field');
+        const nextButtons = document.querySelectorAll('.next-field');
+        let enteredValues = {};
+        let currentFieldIndex = 0;
+    
+        // Start button click event
+        startButton.addEventListener('click', () => {
+            startButton.parentElement.classList.add('hidden');
+            formContainer.classList.remove('hidden');
+            updateButtonState();
+        });
+    
+        // Back button click event
+        backButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const currentField = fields[currentFieldIndex];
+                const previousField = fields[currentFieldIndex - 1];
+                const input = currentField.querySelector('input');
+                const fieldName = input.getAttribute('name');
+                enteredValues[fieldName] = input.value;
+                currentField.classList.add('hidden');
+                previousField.classList.remove('hidden');
+                currentFieldIndex--;
+                updateButtonState();
+            });
+        });
+    
+        // Next button click event
+        nextButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const currentField = fields[currentFieldIndex];
+                const input = currentField.querySelector('input');
+                const errorMessage = currentField.querySelector('.error-message');
+                if (input.value.trim() === '') {
+                    errorMessage.style.display = 'block';
+                    return;
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+                enteredValues[input.getAttribute('name')] = input.value;
+                currentFieldIndex++;
+                currentField.classList.add('hidden');
+                const nextField = fields[currentFieldIndex];
+                nextField.classList.remove('hidden');
+                updateButtonState();
+            });
+        });
+    
+        // Function to update button state
+        function updateButtonState() {
+            const backButtons = document.querySelectorAll('.back-field');
+            const nextButton = nextButtons[currentFieldIndex];
+            const submitButton = document.getElementById('submit-button');
+    
+            backButtons.forEach(button => {
+                button.disabled = currentFieldIndex === 0;
+            });
+    
+            if (currentFieldIndex === fields.length - 1) {
+                submitButton.classList.remove('hidden');
+                nextButton.classList.add('hidden');
+            } else {
+                submitButton.classList.add('hidden');
+                nextButton.classList.remove('hidden');
+            }
+        }
+    
+        updateButtonState();
+    </script>
+    
+</body>
+</html>
